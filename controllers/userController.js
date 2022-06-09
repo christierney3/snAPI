@@ -31,8 +31,7 @@ module.exports = {
         !user
             ? res.status(404).json({ message: 'No user with that ID' })
             : res.json(user)
-      }
-      )
+      })
   },
   // Delete a user and associated apps
   deleteUser(req, res) {
@@ -45,4 +44,23 @@ module.exports = {
       .then(() => res.json({ message: 'User and associated thoughts deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
+  // Add a friend
+  addFriend(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId }),
+      { $addToSet: { friends: req.params.friendId }}
+      .then((user) => {
+        !user
+        ? res.status(404).json({ message: 'No user with that ID' })
+        : res.json(user)
+      })
+  },
+  deleteFriend(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId }),
+      { $pull: { friends: req.params.friendId }}
+      .then((user) => {
+        !user
+        ? res.status(404).json({ message: 'No user with that ID' })
+        : res.json(user)
+      })
+  }
 };
