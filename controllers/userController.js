@@ -46,17 +46,17 @@ module.exports = {
   },
   // Add a friend
   addFriend(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId }),
-      { $addToSet: { friends: req.params.friendId }}
-      .then((user) => {
+    User.findOneAndUpdate({ _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId }})
+      .then((user) =>
         !user
         ? res.status(404).json({ message: 'No user with that ID' })
         : res.json(user)
-      })
+      )
   },
   deleteFriend(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId }),
-      { $pull: { friends: req.params.friendId }}
+    User.findOneAndUpdate({ _id: req.params.userId },
+      { $pull: { friends: req.params.friendId }})
       .then((user) => {
         !user
         ? res.status(404).json({ message: 'No user with that ID' })
